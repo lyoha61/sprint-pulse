@@ -1,4 +1,5 @@
 <script setup>
+import DashboardTabs from '../components/DashboardTabs.vue';
 import Header from '../components/Header.vue';
 
 
@@ -6,4 +7,5 @@ import Header from '../components/Header.vue';
 
 <template>
 	<Header />
+	<DashboardTabs/>
 </template>
