@@ -6,7 +6,7 @@ export function getBadgeByMetricStatus(status) {
     },
     warning: {
       type: 'warning',
-      text: 'Риск',
+      text: 'Внимание',
     },
     critical: {
       type: 'error',

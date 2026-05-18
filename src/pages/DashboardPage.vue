@@ -1,54 +1,25 @@
 <script setup>
+import { computed } from 'vue';
+
 import Header from '../components/Header.vue';
-import StatusBadge from '../components/StatusBadge.vue';
+import MetricCard from '../components/MetricCard.vue';
 
+import { currentSprint } from '../mocks/sprints';
 import { getDashboardMetrics } from '../utils/getDashboardMetrics';
-import { getBadgeByMetricStatus } from '../utils/metricStatusBadge';
 
-const dashboardMetrics = getDashboardMetrics(5,1);
+const dashboardMetrics = computed(() => getDashboardMetrics(currentSprint.id));
 </script>
 
 <template>
   <Header />
 
-  <main class="p-6">
-    <h1 class="mb-6 text-2xl font-bold text-slate-900">
-      Метрики спринта
-    </h1>
-
-    <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-      <div
+  <main class="min-h-screen bg-slate-50 px-8 py-8">
+    <section class="grid gap-5 lg:grid-cols-2 xl:grid-cols-3">
+      <MetricCard
         v-for="metric in dashboardMetrics"
         :key="metric.id"
-        class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
-      >
-        <div class="mb-4 flex items-start justify-between gap-3">
-          <div>
-            <h2 class="text-sm font-semibold text-slate-900">
-              {{ metric.title }}
-            </h2>
-
-            <p class="mt-1 text-xs leading-5 text-slate-500">
-              {{ metric.description }}
-            </p>
-          </div>
-
-          <StatusBadge
-            :type="getBadgeByMetricStatus(metric.status).type"
-            :text="getBadgeByMetricStatus(metric.status).text"
-          />
-        </div>
-
-        <div class="flex items-end gap-2">
-          <span class="text-3xl font-bold text-slate-900">
-            {{ metric.value }}
-          </span>
-
-          <span class="pb-1 text-sm text-slate-500">
-            {{ metric.unit }}
-          </span>
-        </div>
-      </div>
-    </div>
+        :metric="metric"
+      />
+    </section>
   </main>
 </template>
