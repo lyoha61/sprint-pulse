@@ -1,4 +1,5 @@
 <script setup>
+import DashboardTabs from '../components/DashboardTabs.vue';
 import Header from '../components/Header.vue';
 import StatusBadge from '../components/StatusBadge.vue';
 
@@ -11,10 +12,9 @@ const dashboardMetrics = getDashboardMetrics(5,1);
 <template>
   <Header />
 
+	<DashboardTabs/>
   <main class="p-6">
-    <h1 class="mb-6 text-2xl font-bold text-slate-900">
-      Метрики спринта
-    </h1>
+
 
     <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
       <div
@@ -51,4 +51,5 @@ const dashboardMetrics = getDashboardMetrics(5,1);
       </div>
     </div>
   </main>
+
 </template>
