@@ -1,7 +1,8 @@
 <script setup>
-import DashboardPage from './pages/DashboardPage.vue';
+import { RouterView } from 'vue-router';
 </script>
 
+
 <template>
-	<DashboardPage />
+  <RouterView />
 </template>

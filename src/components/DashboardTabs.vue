@@ -4,7 +4,11 @@ import {
 	ChartNoAxesColumn, 
 	Users, 
 } from '@lucide/vue';
-import { ref, computed } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+
+const route = useRoute();
+const router = useRouter();
 
 const TABS = {
 	metrics: "metrics",
@@ -12,7 +16,7 @@ const TABS = {
 	team: "team",
 }
 
-const activeTab = ref("metrics");
+const activeTab = ref(route.query.tab || "metrics");
 
 const setActiveTab = (tabName) => {
 	activeTab.value = tabName;
@@ -50,6 +54,27 @@ const activeTabWidth = computed(() => {
 const metricsTab = ref(null);
 const graphsTab = ref(null);
 const teamTab = ref(null);
+
+onMounted(() => {
+  if (!route.query.tab) {
+    router.replace({
+      query: { 
+        ...route.query,
+        tab: activeTab.value 
+      }
+    });
+  }
+});
+
+watch(activeTab, (newTab) => {
+  router.push({
+    query: { 
+      ...route.query,
+      tab: newTab 
+    }
+  });
+});
+
 </script>
 
 <template>
