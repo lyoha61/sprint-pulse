@@ -1,23 +1,37 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { ChevronLeft, ChevronRight } from '@lucide/vue';
 import logo from '@src/assets/logo.svg';
+import { useRoute, useRouter } from 'vue-router';
 
-const activeSprint = ref(1);
+const route = useRoute();
+const router = useRouter();
+
+const activeSprint = ref(Number(route.params.id) || 1);
+
+watch(() => route.params.id, (newId) => {
+  if (newId) {
+    activeSprint.value = Number(newId);
+  }
+});
 
 const setActiveSprint = (sprintNumber) => {
 	activeSprint.value = sprintNumber;
+	router.push({
+		path: `/sprint/${sprintNumber}`,
+		query: route.query
+	});
 };
 
 const nextSprint = () => {
 	if (activeSprint.value < 4) {
-		activeSprint.value++;
+		setActiveSprint(activeSprint.value + 1);
 	}
 };
 
 const prevSprint = () => {
 	if (activeSprint.value > 1) {
-		activeSprint.value--;
+		setActiveSprint(activeSprint.value - 1);
 	}
 };
 </script>
