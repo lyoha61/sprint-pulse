@@ -55,6 +55,7 @@ export function getDashboardMetrics(sprintId, teamId = 1) {
       status,
       trend,
       trendPercent,
+      aiInsight: 'Будущая аналитика от ИИ',
     };
   });
 }

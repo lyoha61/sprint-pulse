@@ -36,9 +36,12 @@ const badge = computed(() => getBadgeByMetricStatus(props.metric.status));
 
 const cardClasses = computed(() => {
   const classes = {
-    normal: 'border-l-emerald-500',
-    warning: 'border-l-amber-400',
-    critical: 'border-l-red-500',
+    normal:
+      'rounded-xl border border-slate-200 border-l-4 border-l-emerald-500 bg-white p-5 flex flex-col gap-3 shadow-sm hover:shadow-md transition-shadow',
+    warning:
+      'rounded-xl border border-slate-200 border-l-4 border-l-amber-400 bg-amber-50/30 p-5 flex flex-col gap-3 shadow-sm hover:shadow-md transition-shadow',
+    critical:
+      'rounded-xl border border-slate-200 border-l-4 border-l-red-500 bg-red-50/30 p-5 flex flex-col gap-3 shadow-sm hover:shadow-md transition-shadow',
   };
 
   return classes[props.metric.status] || classes.normal;
@@ -52,6 +55,16 @@ const trendClasses = computed(() => {
   };
 
   return classes[props.metric.trend] || classes.stable;
+});
+
+const insightClasses = computed(() => {
+  const classes = {
+    normal: 'bg-emerald-50 text-emerald-700',
+    warning: 'bg-amber-50 text-amber-700',
+    critical: 'bg-red-50 text-red-700',
+  };
+
+  return classes[props.metric.status] || classes.normal;
 });
 
 const trendIcon = computed(() => {
@@ -75,20 +88,19 @@ const formattedTrendPercent = computed(() => {
 
   return `${percent}%`;
 });
+
+const shouldShowAiInsight = computed(() => {
+  return props.metric.status !== 'normal';
+});
 </script>
 
 <template>
-  <article
-    :class="[
-      'rounded-2xl border border-slate-200 border-l-4 bg-white p-7 shadow-sm transition hover:shadow-md',
-      cardClasses,
-    ]"
-  >
-    <div class="mb-5 flex items-start justify-between gap-4">
+  <article :class="cardClasses">
+    <div class="flex items-start justify-between gap-4">
       <div class="flex items-center gap-2 text-slate-500">
-        <component :is="IconComponent" class="h-5 w-5" />
+        <component :is="IconComponent" class="h-4 w-4" />
 
-        <h3 class="text-base font-semibold text-slate-600">
+        <h3 class="text-sm font-medium text-slate-600">
           {{ metric.title }}
         </h3>
       </div>
@@ -96,22 +108,32 @@ const formattedTrendPercent = computed(() => {
       <StatusBadge :type="badge.type" :text="badge.text" />
     </div>
 
-    <div class="mb-4 flex items-end gap-2">
-      <span class="text-4xl font-semibold leading-none text-slate-900">
+    <div class="flex items-end gap-2">
+      <span class="text-3xl font-medium leading-none text-slate-900">
         {{ metric.value }}
       </span>
 
-      <span class="pb-1 text-base text-slate-500">
+      <span class="pb-1 text-sm text-slate-500">
         {{ metric.unit }}
       </span>
     </div>
 
-    <p :class="['mb-5 text-sm font-semibold', trendClasses]">
+    <p :class="['text-sm font-medium', trendClasses]">
       {{ trendIcon }} {{ formattedTrendPercent }} к прошлому спринту
     </p>
 
     <p class="text-sm leading-6 text-slate-500">
       {{ metric.description }}
     </p>
+
+    <div
+      v-if="shouldShowAiInsight"
+      :class="[
+        'mt-auto rounded-lg px-3 py-2 text-sm leading-5',
+        insightClasses,
+      ]"
+    >
+      ⚠ {{ metric.aiInsight }}
+    </div>
   </article>
 </template>
