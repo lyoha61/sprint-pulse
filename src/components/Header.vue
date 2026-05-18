@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { ChevronLeft, ChevronRight } from '@lucide/vue';
+import logo from '@src/assets/logo.svg';
 
 const activeSprint = ref(1);
 
@@ -23,7 +24,16 @@ const prevSprint = () => {
 
 <template>
 <div class="w-full h-auto flex justify-between bg-white px-6 py-4 items-center border-b border-slate-200">
-	<h1 class="px-2 font-semibold">SprintPules</h1>
+	<div class="flex items-center">
+		<div class="bg-[#025CFF] rounded-lg p-2 px-3">
+			<img 
+				:src="logo" 
+				alt="SprintPulse Logo" 
+				class="h-6 w-auto"
+			/>
+		</div>
+		<h1 class="px-2 font-semibold">SprintPules</h1>
+	</div>
 
 	<div class="flex items-center gap-2 bg-slate-100 rounded-xl p-1">
 		<button 
