@@ -1,8 +1,10 @@
 <script setup>
 import DashboardTabs from '../components/DashboardTabs.vue';
 import Header from '../components/Header.vue';
+import MetricCounter from '../components/MetricCounter.vue';
 import SprintDisplay from '../components/SprintDisplay.vue';
 import StatusBadge from '../components/StatusBadge.vue';
+import { getMetricsSummary } from '../mocks/metrics';
 import { getSprintById } from '../mocks/sprints';
 
 import { getDashboardMetrics } from '../utils/getDashboardMetrics';
@@ -10,14 +12,22 @@ import { getBadgeByMetricStatus } from '../utils/metricStatusBadge';
 
 const dashboardMetrics = getDashboardMetrics(5,1);
 const activeSprint = getSprintById(1);
+const metricsSummary = getMetricsSummary(5,1);
 </script>
 
 <template>
 <Header />
 <div class="px-6 py-6">
-	<SprintDisplay 
-	:sprint="activeSprint"
-	/>
+	<div class="flex justify-between mb-6">
+		<SprintDisplay 
+		:sprint="activeSprint"
+		/>
+		<MetricCounter 
+			:problems="metricsSummary.problems"
+			:attention="metricsSummary.attentions"
+			:norm="metricsSummary.total - metricsSummary.problems - metricsSummary.attentions"
+		/>
+	</div>
 	<DashboardTabs/>
 	<main class="p-6">
 		<div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
