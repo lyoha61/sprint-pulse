@@ -7,17 +7,23 @@ import { getMetricsSummary } from '@src/mocks/metrics';
 import { getSprintById } from '@src/mocks/sprints';
 import { getDashboardMetrics } from '@src/utils/getDashboardMetrics';
 import { useRoute, useRouter } from 'vue-router';
-import { computed } from "vue";
+import { computed, defineProps } from "vue";
 import MetricsTab from '@src/features/metrics/MetricsTab.vue';
 
 const route = useRoute();
 const router = useRouter();
 
-const sprintId = Number(route.params.id);
-const activeTab = route.query.tab || "metrics";
-const activeSprint = getSprintById(sprintId);
-const dashboardMetrics = getDashboardMetrics(activeSprint.id, activeSprint.teamId);
-const metricsSummary = getMetricsSummary(sprintId, 1);
+defineProps({
+  sprintId: [String, Number],
+  tab: String
+});
+
+const sprintId = computed(() => Number(route.params.id));
+const activeTab = computed(() => route.query.tab || "metrics");
+const activeSprint = computed(() => getSprintById(sprintId.value));
+const dashboardMetrics = computed(() => getDashboardMetrics(activeSprint.value.id, activeSprint.value.teamId));
+const metricsSummary = computed(() => getMetricsSummary(sprintId.value, 1));
+
 
 const switchTab = (tabName) => {
   router.push({
@@ -48,5 +54,17 @@ const switchTab = (tabName) => {
 				:active-sprint="activeSprint"
 			/>
   	</div>
+
+		 <div v-else-if="activeTab === 'graphs'">
+      <div class="py-8 text-center text-gray-500">
+        Графики будут здесь
+      </div>
+    </div>
+    
+    <div v-else-if="activeTab === 'team'">
+      <div class="py-8 text-center text-gray-500">
+        Информация о команде будет здесь
+      </div>
+    </div>
 	</div>
 </template>
