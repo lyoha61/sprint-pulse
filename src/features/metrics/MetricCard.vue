@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import StatusBadge from './StatusBadge.vue';
-import { getBadgeByMetricStatus } from '../utils/metricStatusBadge';
+import { getBadgeByMetricStatus } from '@src/utils/metricStatusBadge';
 
 const props = defineProps({
 	metric: {

@@ -1,14 +1,14 @@
 <script setup>
-import DashboardTabs from '../components/DashboardTabs.vue';
-import Header from '../components/Header.vue';
-import MetricCounter from '../components/MetricCounter.vue';
-import SprintDisplay from '../components/SprintDisplay.vue';
-import MetricCard from '../components/MetricCard.vue';
-import { getMetricsSummary } from '../mocks/metrics';
-import { getSprintById } from '../mocks/sprints';
-import { getDashboardMetrics } from '../utils/getDashboardMetrics';
+import DashboardTabs from '@src/components/DashboardTabs.vue';
+import Header from '@src/components/Header.vue';
+import MetricCounter from '@src/components/MetricCounter.vue';
+import SprintDisplay from '@src/components/SprintDisplay.vue';
+import { getMetricsSummary } from '@src/mocks/metrics';
+import { getSprintById } from '@src/mocks/sprints';
+import { getDashboardMetrics } from '@src/utils/getDashboardMetrics';
 import { useRoute, useRouter } from 'vue-router';
 import { computed } from "vue";
+import MetricsTab from '@src/features/metrics/MetricsTab.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -43,12 +43,10 @@ const switchTab = (tabName) => {
 
 		<DashboardTabs />
 
-		<div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-			<MetricCard
-				v-for="metric in dashboardMetrics"
-				:key="metric.id"
-				:metric="metric"
+		<div v-if="activeTab === 'metrics'">
+    	<MetricsTab 
+				:active-sprint="activeSprint"
 			/>
-		</div>
+  	</div>
 	</div>
 </template>
