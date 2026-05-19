@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import StatusBadge from './StatusBadge.vue';
+import TrendIndicator from './TrendIndicator.vue';
 import { getBadgeByMetricStatus } from '@src/utils/metricStatusBadge';
 
 const props = defineProps({
@@ -65,6 +66,11 @@ const shouldShowAiInsight = computed(() => {
 				{{ metric.unit }}
 			</span>
 		</div>
+
+		<TrendIndicator
+			:trend="metric.trend"
+			:trend-percent="metric.trendPercent"
+		/>
 
 		<div
 			v-if="shouldShowAiInsight"
