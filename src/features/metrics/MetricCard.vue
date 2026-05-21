@@ -1,8 +1,18 @@
 <script setup>
+
 import { computed } from 'vue';
+import {
+	SquareCheckBig,
+	RotateCcw,
+	Users,
+	Bug,
+	CircleDot,
+} from '@lucide/vue';
+
 import StatusBadge from './StatusBadge.vue';
 import TrendIndicator from './TrendIndicator.vue';
 import { getBadgeByMetricStatus } from '@src/utils/metricStatusBadge';
+
 
 const props = defineProps({
 	metric: {
@@ -12,6 +22,16 @@ const props = defineProps({
 });
 
 const badge = computed(() => getBadgeByMetricStatus(props.metric.status));
+
+const metricIcons = {
+	1: SquareCheckBig,
+	2: RotateCcw,
+	3: Users,
+	4: Bug,
+	5: CircleDot,
+};
+
+const MetricIcon = computed(() => metricIcons[props.metric.id] || SquareCheckBig);
 
 const cardClasses = computed(() => {
 	const classes = {
@@ -43,22 +63,24 @@ const shouldShowAiInsight = computed(() => {
 
 <template>
 	<div :class="cardClasses">
-		<div class="mb-1 flex items-start justify-between gap-3">
-			<div>
-				<h2 class="text-sm font-semibold text-slate-900">
+		<div class="flex items-start justify-between gap-3">
+			<div class="flex min-w-0 items-start gap-2">
+				<component
+					:is="MetricIcon"
+					class="mt-0.5 h-4 w-4 shrink-0 text-slate-500"
+					stroke-width="2"
+				/>
+
+				<h2 class="text-sm font-medium leading-5 text-slate-600">
 					{{ metric.title }}
 				</h2>
-
-				<p class="mt-1 text-xs leading-5 text-slate-500">
-					{{ metric.description }}
-				</p>
 			</div>
 
 			<StatusBadge :type="badge.type" :text="badge.text" />
 		</div>
 
 		<div class="flex items-end gap-2">
-			<span class="text-3xl font-bold text-slate-900">
+			<span class="text-3xl font-medium leading-none text-slate-900">
 				{{ metric.value }}
 			</span>
 
@@ -72,6 +94,10 @@ const shouldShowAiInsight = computed(() => {
 			:trend-percent="metric.trendPercent"
 		/>
 
+		<p class="text-sm leading-6 text-slate-500">
+			{{ metric.description }}
+		</p>
+
 		<div
 			v-if="shouldShowAiInsight"
 			:class="[
@@ -79,7 +105,6 @@ const shouldShowAiInsight = computed(() => {
 				aiInsightClasses,
 			]"
 		>
-			<!-- #NOTE Замени на иконку -->
 			⚠ {{ metric.aiInsight || 'Будущая аналитика от ИИ' }}
 		</div>
 	</div>

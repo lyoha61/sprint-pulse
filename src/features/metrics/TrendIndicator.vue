@@ -46,13 +46,13 @@ const formattedTrendPercent = computed(() => {
 </script>
 
 <template>
-    <div :class="['flex items-center gap-1 text-xs font-medium', trendClasses]">
+    <div :class="['flex items-center gap-1.5 text-xs font-semibold', trendClasses]">
 	    <component
-            :is="TrendIcon"
-            v-if="TrendIcon"
-            class="h-3 w-3"
-            stroke-width="2"
-	    />
+			:is="TrendIcon"
+			v-if="TrendIcon"
+			class="h-3.5 w-3.5"
+			stroke-width="2"
+		/>
 
 	    <span
             v-else
