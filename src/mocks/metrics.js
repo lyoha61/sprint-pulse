@@ -175,46 +175,67 @@ export function getMetricStatus(value, metricId) {
 
 export function getMetricsSummary(sprintId, teamId) {
   const metricValuesData = getMetricValues(sprintId, teamId);
-  if (!metricValuesData) return { problems: 0, attentions: 0, risks: 0, total: 0 };
-  
+
+  if (!metricValuesData) {
+    return {
+      problems: 0,
+      attentions: 0,
+      risks: 0,
+      norm: 0,
+      total: 0,
+    };
+  }
+
+  const metricIdMap = {
+    velocity: 1,
+    tasksOnTime: 2,
+    bugDensity: 3,
+    prReviewTime: 4,
+    cycleTime: 5,
+    deployments: 6,
+    sprintGoalAchievement: 7,
+  };
+
   let problems = 0;
   let attentions = 0;
-  let risks = 0;
-  
+  let norm = 0;
+  let total = 0;
+
   Object.entries(metricValuesData.metrics).forEach(([key, value]) => {
-    const metricIdMap = {
-      velocity: 1,
-      tasksOnTime: 2,
-      bugDensity: 3,
-      prReviewTime: 4,
-      cycleTime: 5,
-      deployments: 6,
-      sprintGoalAchievement: 7
-    };
-    
     const metricId = metricIdMap[key];
-    if (metricId) {
-      const status = getMetricStatus(value, metricId);
-      switch (status) {
-        case "critical":
-          problems++;
-          break;
-        case "warning":
-          attentions++;
-          break;
-        default:
-          break;
-      }
+
+    if (!metricId) {
+      return;
+    }
+
+    total++;
+
+    const status = getMetricStatus(value, metricId);
+
+    switch (status) {
+      case 'critical':
+        problems++;
+        break;
+
+      case 'warning':
+        attentions++;
+        break;
+
+      case 'normal':
+        norm++;
+        break;
+
+      default:
+        break;
     }
   });
-  
-  risks = attentions; 
-  
+
   return {
     problems,
     attentions,
-    risks,
-    total: problems + attentions + risks
+    risks: attentions,
+    norm,
+    total,
   };
 }
 
