@@ -19,7 +19,7 @@ const teamData = computed(() => {
 </script>
 
 <template>
-  <div class="bg-white rounded-xl border border-slate-200 p-5">
+  <div class="panel border-slate-200 p-5">
     <div class="flex justify-between items-start mb-6">
       <div>
         <h3 class="text-xl font-semibold text-slate-800">Команда</h3>

@@ -10,6 +10,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { computed, defineProps } from "vue";
 import MetricsTab from '@src/features/metrics/MetricsTab.vue';
 import TeamsTab from '@src/features/team/TeamsTab.vue'; // Подключаем таб команд
+import ChartsTab from '../features/charts/ChartsTab.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -56,9 +57,7 @@ const switchTab = (tabName) => {
   	</div>
 
 		 <div v-else-if="activeTab === 'graphs'">
-      <div class="py-8 text-center text-gray-500">
-        Графики будут здесь
-      </div>
+        <ChartsTab/>
     </div>
     
     <div v-else-if="activeTab === 'team'">
