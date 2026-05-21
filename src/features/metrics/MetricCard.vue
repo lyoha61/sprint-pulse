@@ -79,6 +79,7 @@ const shouldShowAiInsight = computed(() => {
 				aiInsightClasses,
 			]"
 		>
+			<!-- #NOTE Замени на иконку -->
 			⚠ {{ metric.aiInsight || 'Будущая аналитика от ИИ' }}
 		</div>
 	</div>

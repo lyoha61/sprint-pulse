@@ -6,16 +6,14 @@ import {
 } from '../mocks/metrics';
 
 const metricKeyById = {
-  1: 'velocity',
-  2: 'tasksOnTime',
-  3: 'bugDensity',
-  4: 'prReviewTime',
-  5: 'cycleTime',
-  6: 'deployments',
-  7: 'sprintGoalAchievement',
+  1: 'cycle-time',
+  2: 'review-ping-pong',
+  3: 'wip-load',
+  4: 'escaped-defects',
+  5: 'sprint-burndown',
 };
 
-const lowerIsBetterMetricKeys = ['bugDensity', 'prReviewTime', 'cycleTime'];
+const lowerIsBetterMetricKeys = ['cycle-time', 'review-ping-pong', 'wip-load', 'escaped-defects'];
 
 function getTrendPercent(currentValue, previousValue) {
   if (
