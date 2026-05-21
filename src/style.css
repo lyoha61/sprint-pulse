@@ -27,4 +27,8 @@
     text-decoration: none;
     color: inherit;
   }
+
+  .panel {
+    @apply bg-white rounded-xl border border-slate-200;
+  }
 }
