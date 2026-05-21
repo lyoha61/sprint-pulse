@@ -27,7 +27,7 @@ const badgeClasses = computed(() => {
 <template>
   <span
     :class="[
-      'inline-flex min-w-max items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium leading-none',
+      'inline-flex min-w-max items-center justify-center whitespace-nowrap rounded-md px-2.5 py-1 text-xs font-medium leading-none',
       badgeClasses,
     ]"
   >

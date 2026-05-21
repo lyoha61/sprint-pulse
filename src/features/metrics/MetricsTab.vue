@@ -21,7 +21,7 @@ const dashboardMetrics = computed(() => {
 
 <template>
 <div 
-	class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+	class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
 	<MetricCard
 		v-for="metric in dashboardMetrics"
 		:key="metric.id"
