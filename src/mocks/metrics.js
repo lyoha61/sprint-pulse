@@ -156,33 +156,54 @@ export function getMetricStatus(value, metricId) {
 
 export function getMetricsSummary(sprintId, teamId) {
   const metricValuesData = getMetricValues(sprintId, teamId);
-  if (!metricValuesData) return { problems: 0, attentions: 0, risks: 0, total: 0 };
-  
+
+  if (!metricValuesData) {
+    return {
+      problems: 0,
+      attentions: 0,
+      risks: 0,
+      total: 0,
+    };
+  }
+
+  const metricIdByKey = {
+    'cycle-time': 1,
+    'review-ping-pong': 2,
+    'wip-load': 3,
+    'escaped-defects': 4,
+    'sprint-burndown': 5,
+  };
+
   let problems = 0;
   let attentions = 0;
-  let risks = 0;
-  
+  let total = 0;
+
   Object.entries(metricValuesData.metrics).forEach(([key, value]) => {
-    const status = getMetricStatus(value, key);
-    switch (status) {
-      case "critical":
-        problems++;
-        break;
-      case "warning":
-        attentions++;
-        break;
-      default:
-        break;
+    const metricId = metricIdByKey[key];
+
+    if (!metricId) {
+      return;
+    }
+
+    total += 1;
+
+    const status = getMetricStatus(value, metricId);
+
+    if (status === 'critical') {
+      problems += 1;
+      return;
+    }
+
+    if (status === 'warning') {
+      attentions += 1;
     }
   });
-  
-  risks = attentions; 
-  
+
   return {
     problems,
     attentions,
-    risks,
-    total: problems + attentions + risks
+    risks: attentions,
+    total,
   };
 }
 
