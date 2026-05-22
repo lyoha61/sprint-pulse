@@ -124,7 +124,7 @@ function getIconClasses(filter) {
 			>
 			<svg 
 				:class="[getIconClasses(FILTERS.normal), 'w-1', 'h-1']" 
-				viewBox="6 5.5 12 13.5" 
+				viewBox="5.5 5 12 14.5"
 				fill="none" 
 				xmlns="http://www.w3.org/2000/svg"
 			>
