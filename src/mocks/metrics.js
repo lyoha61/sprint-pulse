@@ -55,16 +55,16 @@ export const metricValues = [
     }
   },
   {
-  //   id: 102,
-  //   sprintId: 2,
-  //   teamId: 1,
-  //   metrics: {
-  //     'cycle-time': 28,
-  //     'review-ping-pong': 2.2,
-  //     'wip-load': 2.8,
-  //     'escaped-defects': 2,
-  //     'sprint-burndown': 82
-  //   }
+    id: 102,
+    sprintId: 2,
+    teamId: 1,
+    metrics: {
+      'cycle-time': 28,
+      'review-ping-pong': 2.2,
+      'wip-load': 2.8,
+      'escaped-defects': 2,
+      'sprint-burndown': 82
+    }
   },
   {
     id: 103,

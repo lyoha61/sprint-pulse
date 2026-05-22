@@ -5,9 +5,10 @@ import {
 	Funnel,
 	TriangleAlert,
 	Check,
+	SquareCheckBig,
 } from '@lucide/vue';
-
 import MetricCard from './MetricCard.vue';
+import CheckCustom from "@src/assets/check.svg";
 
 import { getDashboardMetrics } from '@src/utils/getDashboardMetrics';
 const props = defineProps({
@@ -79,6 +80,13 @@ function getFilterButtonClasses(filter) {
 	];
 }
 
+function getIconClasses(filter) {
+	const activeClasses = 'h-4 w-4 text-white mr-1.5';
+	const inactiveClasses = 'h-4 w-4 text-slate-600 mr-1.5';
+	
+	return activeFilter.value === filter ? activeClasses : inactiveClasses;
+}
+
 </script>
 
 <template>
@@ -105,44 +113,42 @@ function getFilterButtonClasses(filter) {
         :class="getFilterButtonClasses(FILTERS.problems)"
         @click="setFilter(FILTERS.problems)"
       >
-        <TriangleAlert class="mr-1.5 h-4 w-4 text-amber-500" />
+        <TriangleAlert :class="getIconClasses(FILTERS.problems)"  />
         Проблемы
       </button>
 
       <button
-        type="button"
-        :class="getFilterButtonClasses(FILTERS.normal)"
-        @click="setFilter(FILTERS.normal)"
-      >
-        <Check class="mr-1.5 h-4 w-4 text-emerald-600" />
-        Норма
-      </button>
+				type="button"
+				:class="getFilterButtonClasses(FILTERS.normal)"
+				@click="setFilter(FILTERS.normal)"
+			>
+			<svg 
+				:class="[getIconClasses(FILTERS.normal), 'w-1', 'h-1']" 
+				viewBox="6 5.5 12 13.5" 
+				fill="none" 
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<path 
+					d="M8.5 12.5L11.5 16.5L17.5 8" 
+					stroke="currentColor" 
+					stroke-width="2" 
+					stroke-linecap="round" 
+					stroke-linejoin="round"
+				/>
+			</svg>
+				Норма
+			</button>
     </div>
 
 		<Transition name="metrics-content" mode="out-in">
 			<div
 				v-if="filteredMetrics.length === 0"
 				key="empty-state"
-				class="flex min-h-[220px] items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-400"
+				class="flex py-16 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-400"
 			>
-				<div class="text-center">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="32"
-						height="32"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						class="lucide lucide-square-check-big mx-auto mb-3 opacity-30"
-					>
-						<path d="M21 10.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12.5"></path>
-						<path d="m9 11 3 3L22 4"></path>
-					</svg>
-
-					<p class="text-sm">
+				<div class=" flex flex-col items-center">
+					<SquareCheckBig class="text-slate-400 h-8 w-8 opacity-30 mb-3" />
+					<p class="text-lg">
 						Нет метрик в этой категории
 					</p>
 				</div>
