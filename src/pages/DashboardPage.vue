@@ -11,6 +11,7 @@ import { computed, defineProps } from "vue";
 import MetricsTab from '@src/features/metrics/MetricsTab.vue';
 import TeamsTab from '@src/features/team/TeamsTab.vue'; // Подключаем таб команд
 import ChartsTab from '../features/charts/ChartsTab.vue';
+import GlobalAlert from '@src/components/GlobalAlert.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -38,15 +39,21 @@ const switchTab = (tabName) => {
 
 	<div class="px-6 py-6">
 		<div class="flex justify-between mb-6">
-			<SprintDisplay 
+			<SprintDisplay
 				:sprint="activeSprint"
 			/>
-			<MetricCounter 
+
+			<MetricCounter
 				:problems="metricsSummary.problems"
 				:attention="metricsSummary.attentions"
 				:norm="metricsSummary.total - metricsSummary.problems - metricsSummary.attentions"
 			/>
 		</div>
+
+		<GlobalAlert
+			:problems="metricsSummary.problems"
+			:attention="metricsSummary.attentions"
+		/>
 
 		<DashboardTabs class="mb-6" />
 
