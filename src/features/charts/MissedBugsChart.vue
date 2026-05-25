@@ -11,7 +11,14 @@ import {
   Filler
 } from 'chart.js'
 import { Line } from 'vue-chartjs'
-import { createVerticalGradient, createNormLinePlugin } from '@src/utils/chartUtils'
+import { 
+  createVerticalGradient, 
+  createNormLinePlugin, 
+  chartTooltipDefaults 
+} from '@src/utils/chartUtils'
+import { verticalLinePlugin } from '@src/utils/chartPlugins/verticalLine'
+import { hoverPointPlugin } from '@src/utils/chartPlugins/hoverPoint';
+import { tooltipCorner } from '@src/utils/chartPlugins/tooltipCorner'
 
 ChartJS.register(
   CategoryScale,
@@ -28,7 +35,7 @@ const chartData = {
   datasets: [
     {
       label: 'Багов',
-      data: [3, 7, 5, 6], 
+      data: [4, 8, 5, 6], 
       fill: true,
       backgroundColor: function(context) {
         const chart = context.chart;
@@ -46,9 +53,14 @@ const chartData = {
         );
       },
       borderColor: '#f43f5e',
-      pointBackgroundColor: '#f43f5e',
+      borderWidth: 2,
+
+      pointBackgroundColor: 'rgba(244, 63, 94, 0.6)',
       pointBorderColor: '#f43f5e',
       pointRadius: 5,
+      pointBorderWidth: 2,
+      pointHoverBorderWidth: 0,
+
       tension: 0.4
     }
   ]
@@ -57,14 +69,22 @@ const chartData = {
 const chartOptions = {
   responsive: true,
   maintainAspectRatio: false,
+
+  interaction: {
+    mode: 'index',
+    intersect: false
+  },
+
   plugins: {
     legend: {
       display: false
     },
+    hoverPoint: {
+      outerColor: '#f43f5e',
+      innerColor: '#f43f5e'
+    },
     tooltip: {
-      backgroundColor: 'rgba(0, 0, 0, 0.7)',
-      titleColor: '#fff',
-      bodyColor: '#fff',
+      ...chartTooltipDefaults,
       callbacks: {
         label: function(context) {
           return `Багов: ${context.raw}`
@@ -75,7 +95,12 @@ const chartOptions = {
   scales: {
     x: {
       grid: {
-        display: false
+        display: true,
+        color: '#f1f5f9',
+      },
+      border: {
+        display: false,
+        dash: [3, 3]
       },
       ticks: {
         color: '#94a3b8'
@@ -83,13 +108,19 @@ const chartOptions = {
     },
     y: {
       min: 0,
-      max: 8,
+      grace: "15%",
       ticks: {
         stepSize: 2,
         callback: function(value) {
           return value + ' шт.'
         },
-        color: '#94a3b8'
+        color: '#94a3b8',
+
+        padding: 10
+      },
+      border: {
+        display: false,
+        dash: [3, 3]
       },
       grid: {
         color: '#f1f5f9',
@@ -100,7 +131,10 @@ const chartOptions = {
 }
 
 const chartPlugins = [
-  createNormLinePlugin(3, '#fbbf24', 'Норма ≤ 3')
+  createNormLinePlugin(3, '#fbbf24', 'Норма ≤ 3'),
+  verticalLinePlugin,
+  hoverPointPlugin,
+  tooltipCorner,
 ]
 </script>
 
@@ -119,3 +153,4 @@ const chartPlugins = [
     </div>
   </div>
 </template>
+

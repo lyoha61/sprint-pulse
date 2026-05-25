@@ -45,15 +45,15 @@ const chartData = {
 const chartOptions = {
   responsive: true,
   maintainAspectRatio: false,
+  
+  interaction: {
+    mode: 'index',
+    intersect: false
+  },
+
   plugins: {
     legend: {
-      position: 'top',
-      labels: {
-        color: '#64748b',
-        font: {
-          size: 11
-        }
-      }
+      display: false,
     },
     tooltip: {
       backgroundColor: 'rgba(0, 0, 0, 0.7)',
@@ -68,8 +68,13 @@ const chartOptions = {
   },
   scales: {
     x: {
-      grid: {
-        display: false
+       grid: {
+        display: true,
+        color: '#f1f5f9',           
+      },
+      border: {
+        display: false,
+        dash: [3, 3]
       },
       ticks: {
         color: '#94a3b8',
@@ -90,6 +95,10 @@ const chartOptions = {
         font: {
           size: 11
         }
+      },
+      border: {
+        display: false,
+        dash: [3, 3]
       },
       grid: {
         color: '#f1f5f9',

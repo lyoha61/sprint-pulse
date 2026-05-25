@@ -11,7 +11,13 @@ import {
   Filler
 } from 'chart.js'
 import { Line } from 'vue-chartjs'
-import { createVerticalGradient, createNormLinePlugin } from '@src/utils/chartUtils'
+import { 
+  createVerticalGradient, 
+  createNormLinePlugin,
+  chartTooltipDefaults
+} from '@src/utils/chartUtils'
+import { verticalLinePlugin } from '@src/utils/chartPlugins/verticalLine'
+import { hoverPointPlugin } from '@src/utils/chartPlugins/hoverPoint';
 
 ChartJS.register(
   CategoryScale,
@@ -28,15 +34,14 @@ const chartData = {
   datasets: [
     {
       label: 'Возвратов',
-      data: [1, 2, 1, 2], // Данные по возвратам
-      fill: false, // Без заливки
+      data: [1, 2, 1, 2],
+      fill: false, 
       backgroundColor: 'rgba(139, 92, 246, 0.2)',
       borderColor: '#8b5cf6',
       pointBackgroundColor: '#8b5cf6',
       pointBorderColor: '#8b5cf6',
-      pointRadius: 5,
+      pointRadius: 6,
       tension: 0.4,
-      borderDash: [6, 0], // Сплошная линия, но точки могут быть пунктирными
     }
   ]
 }
@@ -44,14 +49,22 @@ const chartData = {
 const chartOptions = {
   responsive: true,
   maintainAspectRatio: false,
+
+  interaction: {
+    mode: 'index',
+    intersect: false
+  },
+
   plugins: {
     legend: {
       display: false
     },
+    hoverPoint: {
+      outerColor: '#8b5cf6',
+      innerColor: '#8b5cf6'
+    },
     tooltip: {
-      backgroundColor: 'rgba(0, 0, 0, 0.7)',
-      titleColor: '#fff',
-      bodyColor: '#fff',
+      ...chartTooltipDefaults,
       callbacks: {
         label: function(context) {
           return `Возвратов: ${context.raw}`
@@ -62,7 +75,12 @@ const chartOptions = {
   scales: {
     x: {
       grid: {
-        display: false
+        display: true,
+        color: '#f1f5f9',           
+      },
+      border: {
+        display: false,
+        dash: [3, 3]
       },
       ticks: {
         color: '#94a3b8'
@@ -78,16 +96,21 @@ const chartOptions = {
         },
         color: '#94a3b8'
       },
+      border: {
+        display: false,
+        dash: [3, 3]
+      },
       grid: {
         color: '#f1f5f9',
-        drawTicks: false
       }
     }
   }
 }
 
 const chartPlugins = [
-  createNormLinePlugin(1.5, '#10b981', 'Норма 1.5')
+  createNormLinePlugin(1.5, '#10b981', 'Норма 1.5'),
+  verticalLinePlugin,
+  hoverPointPlugin
 ]
 </script>
 
