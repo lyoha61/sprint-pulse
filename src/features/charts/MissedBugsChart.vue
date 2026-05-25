@@ -16,7 +16,7 @@ import {
   createNormLinePlugin, 
   chartTooltipDefaults 
 } from '@src/utils/chartUtils'
-import { verticalLinePlugin } from '@src/utils/chartPlugins/verticalLine';
+import { verticalLinePlugin } from '@src/utils/chartPlugins/verticalLine'
 import { hoverPointPlugin } from '@src/utils/chartPlugins/hoverPoint';
 import { tooltipCorner } from '@src/utils/chartPlugins/tooltipCorner'
 
@@ -27,37 +27,36 @@ ChartJS.register(
   LineElement,
   Tooltip,
   Legend,
-  Filler,
-);
+  Filler
+)
 
-// #NOTE потом заменить данные на мок
 const chartData = {
   labels: ['Спринт 1', 'Спринт 2', 'Спринт 3', 'Спринт 4'],
   datasets: [
     {
-      label: 'Выполнение',
-      data: [75, 100, 65, 70],
+      label: 'Багов',
+      data: [4, 8, 5, 6], 
       fill: true,
       backgroundColor: function(context) {
         const chart = context.chart;
         const { chartArea } = chart;
         
         if (!chartArea) {
-          return 'rgba(99, 102, 241, 0.2)';
+          return 'rgba(244, 63, 94, 0.2)';
         }
         
-         return createVerticalGradient(
+        return createVerticalGradient(
           chartArea, 
           chart, 
-          'rgba(99, 102, 241, 0.2)', 
-          'rgba(99, 102, 241, 0)'    
+          'rgba(244, 63, 94, 0.2)', 
+          'rgba(244, 63, 94, 0)'    
         );
       },
-      borderColor: '#6366f1',
+      borderColor: '#f43f5e',
       borderWidth: 2,
 
-      pointBackgroundColor: 'rgba(99, 102, 241, 0.6)',
-      pointBorderColor: '#6366f1',
+      pointBackgroundColor: 'rgba(244, 63, 94, 0.6)',
+      pointBorderColor: '#f43f5e',
       pointRadius: 5,
       pointBorderWidth: 2,
       pointHoverBorderWidth: 0,
@@ -81,11 +80,16 @@ const chartOptions = {
       display: false
     },
     hoverPoint: {
-      outerColor: '#6366f1',
-      innerColor: '#6366f1'
+      outerColor: '#f43f5e',
+      innerColor: '#f43f5e'
     },
     tooltip: {
-      ...chartTooltipDefaults
+      ...chartTooltipDefaults,
+      callbacks: {
+        label: function(context) {
+          return `Багов: ${context.raw}`
+        }
+      }
     }
   },
   scales: {
@@ -104,11 +108,11 @@ const chartOptions = {
     },
     y: {
       min: 0,
-      grace:"5%",
+      grace: "15%",
       ticks: {
-        stepSize: 25,
+        stepSize: 2,
         callback: function(value) {
-          return value + '%'
+          return value + ' шт.'
         },
         color: '#94a3b8',
 
@@ -127,7 +131,7 @@ const chartOptions = {
 }
 
 const chartPlugins = [
-  createNormLinePlugin(80, '#10b981', 'Норма 80%'),
+  createNormLinePlugin(3, '#fbbf24', 'Норма ≤ 3'),
   verticalLinePlugin,
   hoverPointPlugin,
   tooltipCorner,
@@ -137,8 +141,8 @@ const chartPlugins = [
 <template>
   <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
     <div class="mb-4">
-      <h3 class="text-slate-800">Среднее выполнение задач</h3>
-      <p class="text-xs text-slate-400">% выполненных задач на разработчика за спринт</p>
+      <h3 class="text-slate-800">Пропущенные баги</h3>
+      <p class="text-xs text-slate-400">Баги, найденные в продакшне после релиза</p>
     </div>
     <div class="h-56">
       <Line 
@@ -149,3 +153,4 @@ const chartPlugins = [
     </div>
   </div>
 </template>
+

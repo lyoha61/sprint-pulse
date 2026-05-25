@@ -1,4 +1,3 @@
-
 /**
  * Создает вертикальный градиент для заливки графика
  * @param {Object} chartArea - Область графика с координатами
@@ -47,4 +46,47 @@ export const createNormLinePlugin = (value, color = '#10b981', label = `Норм
       ctx.fillText(label, (xScale.left + xScale.right) / 2, yPos - 10);
     }
   };
+};
+
+/**
+ * Декоративный объект с дефолтными стилями tooltip для всех графиков
+ * Используется как базовый стиль tooltip в компонентах
+ */
+export const chartTooltipDefaults = {
+  backgroundColor: '#ffffff',
+  caretSize: 0,
+  caretPadding: 10,
+
+  position: 'followVerticalX',
+
+  titleColor: '#64748b',
+  titleFont: {
+    family: 'sans-serif',
+    size: 14,
+    weight: 'normal'
+  },
+  titleMarginBottom: 8,
+
+  bodyColor: '#1e293b',
+  bodyFont: {
+    family: 'sans-serif',
+    size: 15,
+    weight: 'bold'
+  },
+
+  padding: 12,
+  cornerRadius: 12,
+
+  boxWidth: 8,
+  boxHeight: 8,
+  boxPadding: 6,
+  usePointStyle: true,
+
+  borderColor: 'rgba(0, 0, 0, 0.04)',
+  borderWidth: 1,
+
+  shadowColor: 'rgba(0, 0, 0, 0.08)',
+  shadowBlur: 10,
+  shadowOffsetX: 0,
+  shadowOffsetY: 4
 };
