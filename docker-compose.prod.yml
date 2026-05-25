@@ -1,0 +1,10 @@
+services:
+  backend:
+    env_file:
+      - ./backend/.env.prod
+    ports:
+      - '3000:3000'
+
+  db:
+    env_file: 
+      - ./backend/.env.prod

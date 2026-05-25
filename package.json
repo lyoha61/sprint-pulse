@@ -9,6 +9,7 @@
     "backend"
   ],
   "scripts": {
+    "prod:up": "docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

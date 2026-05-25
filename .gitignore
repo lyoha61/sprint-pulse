@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 
 .continue
+
+.env.prod
+.env.dev
