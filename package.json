@@ -1,24 +1,25 @@
 {
   "name": "sprint-pulse",
-  "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "type": "module",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "dependencies": {
-    "@lucide/vue": "^1.16.0",
-    "@tailwindcss/vite": "^4.3.0",
-    "chart.js": "^4.5.1",
-    "tailwindcss": "^4.3.0",
-    "vue": "^3.5.34",
-    "vue-chartjs": "^5.3.3",
-    "vue-router": "^5.0.7"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lyoha61/sprint-pulse.git"
   },
-  "devDependencies": {
-    "@vitejs/plugin-vue": "^6.0.6",
-    "vite": "^8.0.12"
-  }
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lyoha61/sprint-pulse/issues"
+  },
+  "homepage": "https://github.com/lyoha61/sprint-pulse#readme"
 }
