@@ -17,6 +17,22 @@ const shouldShowAlert = computed(() => {
 	return props.problems > 0 || props.attention > 0;
 });
 
+const alertClasses = computed(() => {
+	if (props.problems > 0) {
+		return 'mb-6 flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4 text-red-800';
+	}
+
+	return 'mb-6 flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4 text-amber-800';
+});
+
+const alertTitle = computed(() => {
+	if (props.problems > 0) {
+		return 'Требует внимания:';
+	}
+
+	return 'Есть предупреждения:';
+});
+
 const alertCount = computed(() => {
 	if (props.problems > 0) {
 		return props.problems;
@@ -25,12 +41,13 @@ const alertCount = computed(() => {
 	return props.attention;
 });
 
+
 const alertZoneText = computed(() => {
 	if (props.problems > 0) {
 		return 'в красной зоне';
 	}
 
-	return 'в зоне риска';
+	return 'в жёлтой зоне';
 });
 
 const indicatorWord = computed(() => {
@@ -62,7 +79,7 @@ const verbText = computed(() => {
 	<Transition name="global-alert">
 		<div
 			v-if="shouldShowAlert"
-			class="mb-6 flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4 text-red-800"
+			:class="alertClasses"
 		>
 			<AlertTriangle
 				class="mt-0.5 h-[18px] w-[18px] shrink-0"
@@ -71,7 +88,7 @@ const verbText = computed(() => {
 
 			<div>
 				<p class="text-sm">
-					<strong>Требует внимания:</strong>
+					<strong>{{ alertTitle }}</strong>
 					{{ alertCount }} {{ indicatorWord }} {{ verbText }} {{ alertZoneText }}.
 					Рекомендуется провести синхронизацию команды.
 				</p>
