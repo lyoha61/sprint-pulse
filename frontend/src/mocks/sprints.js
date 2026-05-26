@@ -34,7 +34,7 @@ export const sprints = [
     goal: "Advanced reporting and analytics",
     completedPoints: 30,
     plannedPoints: 30,
-    isCurrent: false,
+    isCurrent: true,
     teamId: 1,
     metricId: 103
   },
@@ -60,7 +60,7 @@ export const sprints = [
     goal: "Mobile responsiveness and bug fixes",
     completedPoints: 18,
     plannedPoints: 35,
-    isCurrent: true,
+    isCurrent: false,
     teamId: 1,
     metricId: 105
   },
