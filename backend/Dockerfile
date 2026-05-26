@@ -17,6 +17,7 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 
+COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/backend ./backend
 
 EXPOSE 3000
