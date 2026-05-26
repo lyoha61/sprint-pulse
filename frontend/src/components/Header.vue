@@ -4,10 +4,14 @@ import { ChevronLeft, ChevronRight } from '@lucide/vue';
 import logo from '@src/assets/logo.svg';
 import { useRoute, useRouter } from 'vue-router';
 
+import { currentSprint } from '@src/mocks/sprints';
+
 const route = useRoute();
 const router = useRouter();
 
 const activeSprint = ref(Number(route.params.id) || 1);
+
+const currentSprintId = currentSprint.id;
 
 watch(() => route.params.id, (newId) => {
   if (newId) {
@@ -70,8 +74,14 @@ const prevSprint = () => {
 			</div>
 			
 			<li v-for="n in 4" :key="n" class="relative z-10">
-				<button 
-					:class="['sprint-button', { 'sprint-button-active': activeSprint === n }]"
+				<button
+					:class="[
+						'sprint-button',
+						{
+							'sprint-button-active': activeSprint === n && currentSprintId !== n,
+							'sprint-button-current': currentSprintId === n,
+						},
+					]"
 					@click="setActiveSprint(n)"
 				>
 					Спринт {{ n }}
@@ -100,6 +110,11 @@ const prevSprint = () => {
 
 .sprint-button-active, .sprint-button-active:hover  {
 	@apply text-indigo-700;
+}
+
+.sprint-button-current,
+.sprint-button-current:hover {
+	@apply bg-emerald-600 text-white shadow-sm;
 }
 
 .chevron-button {
