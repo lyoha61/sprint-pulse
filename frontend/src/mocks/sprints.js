@@ -8,7 +8,7 @@ export const sprints = [
     goal: "Initial project setup and authentication",
     completedPoints: 20,
     plannedPoints: 20,
-    isCurrent: false,
+    isCurrent: true,
     teamId: 1,
     metricId: 101
   },
@@ -60,7 +60,7 @@ export const sprints = [
     goal: "Mobile responsiveness and bug fixes",
     completedPoints: 18,
     plannedPoints: 35,
-    isCurrent: true,
+    isCurrent: false,
     teamId: 1,
     metricId: 105
   },

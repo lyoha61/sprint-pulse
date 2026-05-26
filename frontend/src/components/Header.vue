@@ -11,7 +11,7 @@ import { currentSprint, sprints } from '@src/mocks/sprints';
 const route = useRoute();
 const router = useRouter();
 
-const activeSprint = ref(Number(route.params.id) || currentSprint.id || 1);
+const activeSprint = ref(Number(route.params.id) || currentSprint?.id || 1);
 
 const sprintList = computed(() => {
 	return sprints.slice(0, 4);
