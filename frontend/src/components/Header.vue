@@ -4,6 +4,10 @@ import { ChevronLeft, ChevronRight } from '@lucide/vue';
 import logo from '@src/assets/logo.svg';
 import { useRoute, useRouter } from 'vue-router';
 
+import DateRangeSprintPicker from '@src/components/DateRangeSprintPicker.vue';
+
+
+
 const route = useRoute();
 const router = useRouter();
 
@@ -49,43 +53,47 @@ const prevSprint = () => {
 		<h1 class="px-2 font-semibold">SprintPules</h1>
 	</div>
 
-	<div class="flex items-center gap-2 bg-slate-100 rounded-xl p-1">
-		<button 
-			class="chevron-button"
-			@click="prevSprint"
-			:disabled="activeSprint === 1"
-		>
-			<ChevronLeft />
-		</button>
-		
-		<ul class="flex gap-2 relative">
-			<div class="absolute inset-y-1 left-0 right-0">
-				<div 
-					class="absolute top-0 bottom-0 bg-white shadow-sm rounded-lg transition-all duration-300 ease-in-out"
-					:style="{ 
-						width: 'calc(25% - 4px)',
-						left: `calc(${(activeSprint - 1) * 25}% + ${(activeSprint - 1) * 2}px)`
-					}"
-				></div>
-			</div>
-			
-			<li v-for="n in 4" :key="n" class="relative z-10">
-				<button 
-					:class="['sprint-button', { 'sprint-button-active': activeSprint === n }]"
-					@click="setActiveSprint(n)"
-				>
-					Спринт {{ n }}
-				</button>
-			</li>
-		</ul>
-		
-		<button 
-			class="chevron-button"
-			@click="nextSprint"
-			:disabled="activeSprint === 4"
-		>
-			<ChevronRight />
-		</button>
+	<div class="flex items-center gap-3">
+		<div class="flex items-center gap-2 rounded-xl bg-slate-100 p-1">
+			<button
+				class="chevron-button"
+				@click="prevSprint"
+				:disabled="activeSprint === 1"
+			>
+				<ChevronLeft />
+			</button>
+
+			<ul class="relative flex gap-2">
+				<div class="absolute inset-y-1 left-0 right-0">
+					<div
+						class="absolute top-0 bottom-0 rounded-lg bg-white shadow-sm transition-all duration-300 ease-in-out"
+						:style="{
+							width: 'calc(25% - 4px)',
+							left: `calc(${(activeSprint - 1) * 25}% + ${(activeSprint - 1) * 2}px)`
+						}"
+					></div>
+				</div>
+
+				<li v-for="n in 4" :key="n" class="relative z-10">
+					<button
+						:class="['sprint-button', { 'sprint-button-active': activeSprint === n }]"
+						@click="setActiveSprint(n)"
+					>
+						Спринт {{ n }}
+					</button>
+				</li>
+			</ul>
+
+			<button
+				class="chevron-button"
+				@click="nextSprint"
+				:disabled="activeSprint === 4"
+			>
+				<ChevronRight />
+			</button>
+		</div>
+
+		<DateRangeSprintPicker />
 	</div>
 
 </div>

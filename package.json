@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/lyoha61/sprint-pulse/issues"
   },
-  "homepage": "https://github.com/lyoha61/sprint-pulse#readme"
+  "homepage": "https://github.com/lyoha61/sprint-pulse#readme",
+  "dependencies": {
+    "date-fns": "^4.3.0"
+  }
 }
