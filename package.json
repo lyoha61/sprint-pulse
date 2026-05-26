@@ -10,7 +10,9 @@
   ],
   "scripts": {
     "prod:up": "docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prod:down": "docker compose -f docker-compose.yml -f docker-compose.prod.yml down",
+    "dev:up": "docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d",
+    "dev:down": "docker compose -f docker-compose.yml -f docker-compose.dev.yml down"
   },
   "repository": {
     "type": "git",
