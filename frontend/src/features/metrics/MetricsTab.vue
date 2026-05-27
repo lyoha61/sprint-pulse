@@ -1,5 +1,5 @@
 <script setup>
-import { computed, defineProps } from 'vue';
+import { computed, defineProps, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import {
 	Funnel,
@@ -11,6 +11,8 @@ import MetricCard from './MetricCard.vue';
 import CheckCustom from "@src/assets/check.svg";
 
 import { getDashboardMetrics } from '@src/utils/getDashboardMetrics';
+
+import { requestMetricAiInsight } from '@src/api/metricAiApi';
 const props = defineProps({
   activeSprint: {
     type: Object,
@@ -34,6 +36,56 @@ const dashboardMetrics = computed(() => {
   );
 });
 
+const aiInsights = ref({});
+
+const metricsWithAiInsights = computed(() => {
+	return dashboardMetrics.value.map((metric) => {
+		const generatedInsight = aiInsights.value[metric.id];
+
+		if (!generatedInsight) {
+			return metric;
+		}
+
+		return {
+			...metric,
+			aiInsight: generatedInsight,
+		};
+	});
+});
+
+watch(
+	dashboardMetrics,
+	async (metrics) => {
+		const metricsForAi = metrics.filter((metric) => metric.status !== 'normal');
+
+		aiInsights.value = metricsForAi.reduce((acc, metric) => {
+			acc[metric.id] = 'ИИ анализирует показатель...';
+			return acc;
+		}, {});
+
+		await Promise.all(
+			metricsForAi.map(async (metric) => {
+				try {
+					const insight = await requestMetricAiInsight(metric.aiPayload);
+
+					aiInsights.value = {
+						...aiInsights.value,
+						[metric.id]: insight,
+					};
+				} catch {
+					aiInsights.value = {
+						...aiInsights.value,
+						[metric.id]: metric.aiInsight || 'Будущая аналитика от ИИ',
+					};
+				}
+			})
+		);
+	},
+	{
+		immediate: true,
+	}
+);
+
 const activeFilter = computed(() => {
 	const filter = route.query.filter;
 
@@ -47,14 +99,14 @@ const activeFilter = computed(() => {
 
 const filteredMetrics = computed(() => {
 	if (activeFilter.value === FILTERS.problems) {
-		return dashboardMetrics.value.filter((metric) => metric.status !== 'normal');
+		return metricsWithAiInsights.value.filter((metric) => metric.status !== 'normal');
 	}
 
 	if (activeFilter.value === FILTERS.normal) {
-		return dashboardMetrics.value.filter((metric) => metric.status === 'normal');
+		return metricsWithAiInsights.value.filter((metric) => metric.status === 'normal');
 	}
 
-	return dashboardMetrics.value;
+	return metricsWithAiInsights.value;
 });
 
 function setFilter(filter) {
