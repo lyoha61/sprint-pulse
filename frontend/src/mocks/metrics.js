@@ -47,7 +47,7 @@ export const metricValues = [
     sprintId: 1,
     teamId: 1,
     metrics: {
-      'cycle-time': 32,
+      'cycle-time': 82,
       'review-ping-pong': 2.5,
       'wip-load': 3.2,
       'escaped-defects': 3,
@@ -121,36 +121,70 @@ export const getMetricValues = (sprintId, teamId) => {
 };
 
 export function getMetricStatus(value, metricId) {
-  const metric = metricDefinitions.find(m => m.id === metricId);
-  if (!metric) return "normal";
-  
-  const isLowerBetter = ['cycle-time', 'review-ping-pong', 'wip-load', 'escaped-defects'].includes(metricId);
-  
-  const parseValue = (str) => {
-    if (str.includes('-')) {
-      return parseFloat(str.split('-')[1]); 
-    }
-    if (str.includes('меньше')) {
-      return parseFloat(str.replace('меньше ', ''));
-    }
-    if (str.includes('больше')) {
-      return parseFloat(str.replace('больше ', ''));
-    }
-    return parseFloat(str);
-  };
-  
-  const normalValue = parseValue(metric.normal);
-  const warningValue = parseValue(metric.warning);
-  
-  if (isLowerBetter) {
-    if (value <= normalValue) return "normal";
-    if (value <= warningValue) return "warning";
-    return "critical";
-  } else {
-    if (value >= normalValue) return "normal";
-    if (value >= warningValue) return "warning";
-    return "critical";
-  }
+	const rules = {
+		// Среднее выполнение задач: выше 80% — норма
+		1: {
+			direction: 'higher',
+			normal: 80,
+			warning: 50,
+		},
+
+		// Review Ping-Pong: не более 1.5 — норма, выше 3 — проблема
+		2: {
+			direction: 'lower',
+			normal: 1.5,
+			warning: 3,
+		},
+
+		// Загруженность разработчиков: свыше 90% — риск выгорания
+		3: {
+			direction: 'lower',
+			normal: 90,
+			warning: 100,
+		},
+
+		// Пропущенные баги: не более 3 — норма, 4-5 — внимание, выше 5 — проблема
+		4: {
+			direction: 'lower',
+			normal: 3,
+			warning: 5,
+		},
+
+		// Sprint Burndown: выше 80% — норма, 50-79 — внимание, ниже 50 — проблема
+		5: {
+			direction: 'higher',
+			normal: 80,
+			warning: 50,
+		},
+	};
+
+	const rule = rules[metricId];
+
+	if (!rule) {
+		return 'normal';
+	}
+
+	if (rule.direction === 'higher') {
+		if (value >= rule.normal) {
+			return 'normal';
+		}
+
+		if (value >= rule.warning) {
+			return 'warning';
+		}
+
+		return 'critical';
+	}
+
+	if (value <= rule.normal) {
+		return 'normal';
+	}
+
+	if (value <= rule.warning) {
+		return 'warning';
+	}
+
+	return 'critical';
 }
 
 
@@ -207,12 +241,18 @@ export function getMetricsSummary(sprintId, teamId) {
   };
 }
 
-export function getTrend(current, previous, metricId) {
-  if (previous === undefined || previous === null) return "stable";
-  
-  const isLowerBetter = ['cycle-time', 'review-ping-pong', 'wip-load', 'escaped-defects'].includes(metricId);
-  
-  if (current > previous) return isLowerBetter ? "down" : "up";
-  if (current < previous) return isLowerBetter ? "up" : "down";
-  return "stable";
+export function getTrend(current, previous, isLowerBetter = false) {
+	if (previous === undefined || previous === null) {
+		return 'stable';
+	}
+
+	if (current > previous) {
+		return isLowerBetter ? 'down' : 'up';
+	}
+
+	if (current < previous) {
+		return isLowerBetter ? 'up' : 'down';
+	}
+
+	return 'stable';
 }
