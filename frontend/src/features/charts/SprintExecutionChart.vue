@@ -19,7 +19,7 @@ ChartJS.register(
 );
 
 const chartData = {
-	labels: ['Сп. 1', 'Сп. 2', 'Сп. 3', 'Сп. 4'],
+	labels: ['Спринт 1', 'Спринт 2', 'Спринт 3', 'Спринт 4'],
 	datasets: [
 		{
 			label: 'Выполнено',
