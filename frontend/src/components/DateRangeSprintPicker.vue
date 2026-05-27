@@ -91,7 +91,7 @@ function showSprintByPeriod() {
 	<div class="relative">
 		<button
 			type="button"
-			class="flex items-center gap-1.5 rounded-xl border border-violet-600 bg-violet-600 px-3 py-2 text-sm text-white transition-all hover:bg-violet-700"
+			class="flex items-center gap-1.5 rounded-xl border border-indigo-600 bg-indigo-600 px-3 py-2 text-sm text-white shadow-sm transition-all hover:bg-indigo-700"
 			@click="togglePicker"
 		>
 			<CalendarSearch
