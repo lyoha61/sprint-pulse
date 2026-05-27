@@ -211,7 +211,7 @@ const chartPlugins = [
 	{
 		id: 'goalLine',
 
-		afterDatasetsDraw(chart) {
+		beforeDatasetsDraw(chart) {
 			const { ctx, chartArea, scales } = chart;
 			const yScale = scales.y;
 			const xScale = scales.x;
@@ -231,12 +231,83 @@ const chartPlugins = [
 			ctx.setLineDash([5, 5]);
 			ctx.stroke();
 
-			ctx.setLineDash([]);
-			ctx.fillStyle = '#10b981';
+			ctx.restore();
+		},
+
+		afterDatasetsDraw(chart) {
+			const { ctx, chartArea, scales } = chart;
+			const yScale = scales.y;
+			const xScale = scales.x;
+			const y = yScale.getPixelForValue(80);
+
+			if (y < chartArea.top || y > chartArea.bottom) {
+				return;
+			}
+
+			const label = 'Цель 80%';
+			const color = '#10b981';
+
+			const dotSize = 8;
+			const dotRadius = dotSize / 2;
+			const paddingX = 8;
+			const gap = 6;
+
+			ctx.save();
+
 			ctx.font = '500 11px sans-serif';
-			ctx.textAlign = 'right';
-			ctx.textBaseline = 'bottom';
-			ctx.fillText('Цель 80%', xScale.right - 12, y - 8);
+			ctx.textBaseline = 'middle';
+
+			const textWidth = ctx.measureText(label).width;
+			const badgeWidth = dotSize + gap + textWidth + paddingX * 2;
+			const badgeHeight = 22;
+
+			const badgeX = xScale.right - badgeWidth - 12;
+			const badgeY = y - badgeHeight / 2;
+
+			ctx.fillStyle = '#ffffff';
+			ctx.shadowColor = 'rgba(15, 23, 42, 0.08)';
+			ctx.shadowBlur = 8;
+			ctx.shadowOffsetY = 2;
+
+			const radius = 8;
+			const badgeRight = badgeX + badgeWidth;
+			const badgeBottom = badgeY + badgeHeight;
+
+			ctx.beginPath();
+			ctx.moveTo(badgeX + radius, badgeY);
+			ctx.lineTo(badgeRight - radius, badgeY);
+			ctx.quadraticCurveTo(badgeRight, badgeY, badgeRight, badgeY + radius);
+			ctx.lineTo(badgeRight, badgeBottom - radius);
+			ctx.quadraticCurveTo(badgeRight, badgeBottom, badgeRight - radius, badgeBottom);
+			ctx.lineTo(badgeX + radius, badgeBottom);
+			ctx.quadraticCurveTo(badgeX, badgeBottom, badgeX, badgeBottom - radius);
+			ctx.lineTo(badgeX, badgeY + radius);
+			ctx.quadraticCurveTo(badgeX, badgeY, badgeX + radius, badgeY);
+			ctx.closePath();
+			ctx.fill();
+
+			ctx.shadowColor = 'transparent';
+			ctx.shadowBlur = 0;
+			ctx.shadowOffsetY = 0;
+
+			ctx.beginPath();
+			ctx.arc(
+				badgeX + paddingX + dotRadius,
+				y,
+				dotRadius,
+				0,
+				Math.PI * 2
+			);
+			ctx.fillStyle = color;
+			ctx.fill();
+
+			ctx.fillStyle = color;
+			ctx.textAlign = 'left';
+			ctx.fillText(
+				label,
+				badgeX + paddingX + dotSize + gap,
+				y
+			);
 
 			ctx.restore();
 		},
