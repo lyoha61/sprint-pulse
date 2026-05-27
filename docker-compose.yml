@@ -6,6 +6,7 @@ services:
     container_name: sprintpulse_backend
     depends_on:
       - db
+      - ollama
     ports:
       - '3000:3000'
 
@@ -26,5 +27,15 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  ollama:
+    image: ollama/ollama
+    container_name: sprintpulse_ollama
+    restart: always
+    ports:
+      - '11434:11434'
+    volumes:
+      - ollama_data:/root/.ollama
+
 volumes:
   postgres_data:
+  ollama_data:

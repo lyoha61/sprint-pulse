@@ -38,6 +38,9 @@ export function buildMetricAiPayload(metric) {
 		status: metric.status,
 		trend: metric.trend,
 		trendPercent: metric.trendPercent,
+		previousValue: metric.previousValue ?? null,
+		previousSprintId: metric.previousSprintId ?? null,
+		previousSprintLabel: metric.previousSprintLabel ?? null,
 		aiScore: metric.aiScore,
 		aiRiskLevel: metric.aiRiskLevel,
 		aiScale: {

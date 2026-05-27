@@ -24,7 +24,6 @@ const metricKeyById = {
 };
 
 const lowerIsBetterMetricKeys = [
-	'cycle-time',
 	'review-ping-pong',
 	'wip-load',
 	'escaped-defects',
@@ -55,6 +54,8 @@ export function getDashboardMetrics(sprintId, teamId = 1) {
 		const value = currentMetricValues.metrics[metricKey];
 		const previousValue = previousMetricValues?.metrics?.[metricKey];
 
+		const previousSprintId = sprintId > 1 ? sprintId - 1 : null;
+
 		const isLowerBetter = lowerIsBetterMetricKeys.includes(metricKey);
 		const status = getMetricStatus(value, metric.id);
 		const trend = getTrend(value, previousValue, isLowerBetter);
@@ -81,6 +82,9 @@ export function getDashboardMetrics(sprintId, teamId = 1) {
 			...preparedMetric,
 			aiPayload: buildMetricAiPayload(preparedMetric),
 			aiInsight: getFallbackMetricAiInsight(preparedMetric),
+			previousValue: previousValue ?? null,
+			previousSprintId,
+			previousSprintLabel: previousSprintId ? `Спринт ${previousSprintId}` : null,
 		};
 	});
 }

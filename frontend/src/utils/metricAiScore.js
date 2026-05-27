@@ -40,20 +40,22 @@ function normalizeLowerIsBetter(value, normalValue, criticalValue) {
 
 export function getMetricAiScore(metricId, value) {
 	const aiScoreByMetric = {
-		// Среднее выполнение задач: 80+ хорошо, 50 и ниже плохо
+		// Среднее выполнение задач
 		1: () => normalizeHigherIsBetter(value, 80, 50),
 
-		// Review Ping-Pong: 1.5 и ниже хорошо, 3 и выше плохо
+		// Review Ping-Pong
 		2: () => normalizeLowerIsBetter(value, 1.5, 3),
 
-		// Загруженность разработчиков: 90 и ниже хорошо, 100 и выше плохо
+		// Загруженность разработчиков
+		// 4.2% должно быть 100/100, потому что риск только выше 90%
 		3: () => normalizeLowerIsBetter(value, 90, 100),
 
-		// Пропущенные баги: 3 и ниже хорошо, 5 и выше плохо
+		// Пропущенные баги
+		// 4 бага — уже внимание, но не проблема
 		4: () => normalizeLowerIsBetter(value, 3, 5),
 
-		// Sprint Burndown: 80+ хорошо, 50 и ниже плохо
-		// 65% даст AI-score 50/100
+		// Sprint Burndown
+		// 88% = 100/100, 65% ≈ 50/100
 		5: () => normalizeHigherIsBetter(value, 80, 50),
 	};
 

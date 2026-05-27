@@ -53,10 +53,26 @@ const metricsWithAiInsights = computed(() => {
 	});
 });
 
+function createAiDashboardContext(metrics) {
+	return metrics.map((metric) => ({
+		metricId: metric.id,
+		title: metric.title,
+		rawValue: metric.value,
+		unit: metric.unit,
+		status: metric.status,
+		trend: metric.trend,
+		trendPercent: metric.trendPercent,
+		previousValue: metric.previousValue ?? null,
+		aiScore: metric.aiScore,
+		aiRiskLevel: metric.aiRiskLevel,
+	}));
+}
+
 watch(
 	dashboardMetrics,
 	async (metrics) => {
 		const metricsForAi = metrics.filter((metric) => metric.status !== 'normal');
+		const dashboardContext = createAiDashboardContext(metrics);
 
 		aiInsights.value = metricsForAi.reduce((acc, metric) => {
 			acc[metric.id] = 'ИИ анализирует показатель...';
@@ -66,7 +82,10 @@ watch(
 		await Promise.all(
 			metricsForAi.map(async (metric) => {
 				try {
-					const insight = await requestMetricAiInsight(metric.aiPayload);
+					const insight = await requestMetricAiInsight(
+						metric.aiPayload,
+						dashboardContext
+					);
 
 					aiInsights.value = {
 						...aiInsights.value,

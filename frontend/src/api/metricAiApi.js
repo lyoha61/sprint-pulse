@@ -1,4 +1,4 @@
-export async function requestMetricAiInsight(metricPayload) {
+export async function requestMetricAiInsight(metricPayload, dashboardContext = []) {
 	const response = await fetch('/api/ai/metric-insight', {
 		method: 'POST',
 		headers: {
@@ -6,6 +6,7 @@ export async function requestMetricAiInsight(metricPayload) {
 		},
 		body: JSON.stringify({
 			metric: metricPayload,
+			context: dashboardContext,
 		}),
 	});
 
