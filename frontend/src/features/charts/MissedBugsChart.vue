@@ -131,7 +131,7 @@ const chartOptions = {
 }
 
 const chartPlugins = [
-  createNormLinePlugin(3, '#fbbf24', 'Норма ≤ 3'),
+  createNormLinePlugin(3, '#d97706', 'Норма ≤ 3'),
   verticalLinePlugin,
   hoverPointPlugin,
   tooltipCorner,
