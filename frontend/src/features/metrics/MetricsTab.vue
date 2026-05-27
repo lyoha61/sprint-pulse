@@ -70,7 +70,7 @@ function getFilterButtonClasses(filter) {
 	const baseClasses =
 		'inline-flex h-8 items-center justify-center rounded-lg border px-3 py-1 text-sm transition-colors box-border';
 
-	const activeClasses = 'border-slate-800 bg-slate-800 text-white';
+	const activeClasses = 'border-indigo-600 bg-indigo-600 text-white shadow-sm';
 	const inactiveClasses =
 		'border-slate-200 bg-white text-slate-600 hover:border-slate-300';
 
