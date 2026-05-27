@@ -45,7 +45,7 @@ USE_LLM_INSIGHTS=false
 
 ## AI-аналитика
 
-## Установка и настройка локальной AI-модели
+Установка и настройка локальной AI-модели
 
 ```text
 docker exec sprintpulse_ollama ollama pull llama3.2:3b
