@@ -65,6 +65,8 @@ function createAiDashboardContext(metrics) {
 		previousValue: metric.previousValue ?? null,
 		aiScore: metric.aiScore,
 		aiRiskLevel: metric.aiRiskLevel,
+		// История за 3 спринта — чтобы модель видела тренд, а не только срез
+		history: metric.history ?? [],
 	}));
 }
 

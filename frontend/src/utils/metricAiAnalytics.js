@@ -43,28 +43,23 @@ export function buildMetricAiPayload(metric) {
 		previousSprintLabel: metric.previousSprintLabel ?? null,
 		aiScore: metric.aiScore,
 		aiRiskLevel: metric.aiRiskLevel,
-		aiScale: {
-			min: 1,
-			max: 100,
-			description: 'Чем выше значение, тем лучше состояние метрики.',
-		},
+		// История значений за последние спринты для анализа тренда
+		history: metric.history ?? [],
 	};
 }
 
 export function getFallbackMetricAiInsight(metric) {
-	const valueText = formatMetricValue(metric.value, metric.unit);
+	const value = `${metric.value} ${metric.unit || ''}`.trim();
 
-	if (metric.aiRiskLevel === 'good') {
-		return `${metric.title}: показатель в норме. AI-score ${metric.aiScore}/100.`;
+	// Для нормальных метрик инсайт не показывается (shouldShowAiInsight = false)
+	// Этот fallback срабатывает только пока LLM ещё не ответила
+	if (metric.aiRiskLevel === 'critical') {
+		return `Показатель ${value} — критическое отклонение, нужен разбор.`;
 	}
-
-	const recommendation =
-		METRIC_RECOMMENDATIONS[metric.id]?.[metric.aiRiskLevel] ||
-		'Проверьте динамику и возможные причины отклонения.';
 
 	if (metric.aiRiskLevel === 'warning') {
-		return `${metric.title}: показатель требует внимания. Текущее значение ${valueText}, AI-score ${metric.aiScore}/100. ${recommendation}`;
+		return `Показатель ${value} — есть отклонение, стоит проверить динамику.`;
 	}
 
-	return `${metric.title}: показатель находится в проблемной зоне. Текущее значение ${valueText}, AI-score ${metric.aiScore}/100. ${recommendation}`;
+	return `Показатель ${value} — динамика стабильная.`;
 }
