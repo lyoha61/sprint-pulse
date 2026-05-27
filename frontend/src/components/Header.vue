@@ -53,7 +53,7 @@ const prevSprint = () => {
 			</div>
 
 			<h1 class="px-2 font-semibold">
-				SprintPules
+				SprintPulse
 			</h1>
 		</div>
 
